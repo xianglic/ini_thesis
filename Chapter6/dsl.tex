@@ -1,0 +1,284 @@
+\chapter{DroneDSL}
+\label{sec:dronedsl}
+
+
+\textbf{DroneDSL} is a domain-specific language carefully designed to streamline the programming of drone mission lifecycles. It assists users in defining drone behavior adaptively, abstracting complex underlying implementation details to produce executable code compatible with various drone platforms. In DroneDSL, each flight mission is structured as a task-based automaton (similar to a finite state machine), which orchestrates the drone's adaptation behaviors through a series of defined states and responsive events.
+
+\section{File Structure}
+The DroneDSL script is divided into two main sections, each serving a distinct purpose in setting up the mission.
+
+\subsection{Overview} 
+\begin{itemize}
+    \item In the task section, the keyword \textbf{Task} is followed by braces, within which users define the task instances that determine the state in the task automata.
+    \item In the mission section, the keyword \textbf{Mission} followed by braces allows users to define the transition functions from one task to another, creating transitions within the task automata.
+\end{itemize}
+
+\begin{lstlisting}[style=customgo]
+Task {
+    // Definition of task states
+}
+
+Mission {
+    // Specification of transition functions
+}
+\end{lstlisting}
+
+
+
+
+\section{Task Section }
+This section is dedicated to defining the various task states that a drone can execute during its mission. Each task state details specific actions and settings.
+
+\subsection{Task Definition}
+Typically, we begin with the keyword \textbf{Detect}, \textbf{Track}, or \textbf{Avoid} followed by a \textit{\textbf{Task ID}} and braces. Within these braces, users must specify the task attributes related to the \textit{\textbf{Task Type}}. The necessary task attributes for each \textbf{\textit{Task Type}} are introduced in ~\ref{sec:task_type}.
+
+\begin{lstlisting}[style=customgo]
+Task{
+    task_type task_id { // Definition of the task state
+        task_attribute: task_attribute_value,  //  Attribute
+        // Any attributes
+        task_attribute: task_attribute_value,  
+        task_attribute: task_attribute_value 
+    }
+     ... // Additional task state definitions
+}
+\end{lstlisting}
+
+
+\subsection {Task type}
+\label{sec:task_type}
+Indicates the type of operation the drone will perform. Supported operations include: 
+\begin{itemize}
+    \item \textbf{Detect Task}\\
+    Instruct drone to detect objects along the specified path using the specified pitch, rotation, sampling rate, and detection model\\
+    \textbf{Required attributes:} \textit{Waypoints}, \textit{Gimbal Pitch}, \textit{Drone} \textit{Rotation}, \textit{Sample} \textit{Rate}, \textit{Hover} \textit{Delay}, \textit{Model}
+    \begin{lstlisting}[style=customgo] 
+    Detect task_id { // Definition of the task state
+        waypoints: task_attribute_value,  //  waypoints
+        gimbal_pitch: task_attribute_value,  // gimbal pitch
+        drone_rotation: task_attribute_value,  // rotation
+        sample_rate: task_attribute_value,  // sample rate  
+        hover_delay: task_attribute_value, // hover delay
+        model: task_attribute_value // model
+    }
+    \end{lstlisting}  
+    
+    \item \textbf{Track Task} \\
+    Track specified class using a paritcular model for inferencing \\
+    \textbf{Required attributes:} \textit{Gimbal Pitch, Model, Class}
+    \begin{lstlisting}[style=customgo] 
+    Track task_id { // Definition of the task state
+        gimbal_pitch: task_attribute_value,  // gimbal pitch
+        model: task_attribute_value, // model
+        class: task_attribute_value // class
+    }
+    \end{lstlisting}  
+
+    \item \textbf{Avoidance Task} \\
+    Fly along the specified path while avoiding obstacles\\
+    \textbf{Required attributes:} \textit{Waypoints, Model, Speed, Altitude}
+    \begin{lstlisting}[style=customgo] 
+    Avoid task_id { // Definition of the task state
+        speed: task_attribute_value,  // speed
+        model: task_attribute_value, // model
+        altitude: task_attribute_value, // altitude
+        waypoints: task_attribute_value // waypoints
+    }
+    \end{lstlisting}  
+\end{itemize}
+
+    
+\subsection{Task ID} A unique alphanumeric identifier assigned to each task state. It supports Greek and Latin letters, underscores, digits, apostrophes, and hyphens. An identifier must start with a letter or underscore. Here are is the example where we name an avoidance task as \enquote{avoid\_task\_1}:
+    \begin{lstlisting}[style=customgo]
+    Avoid avoid_task_1 { // Definition of the task state
+        speed: task_attribute_value,  // speed
+        model: task_attribute_value, // model
+        altitude: task_attribute_value, // altitude
+        waypoints: task_attribute_value // waypoints
+    }
+    \end{lstlisting}
+
+
+\subsection{Task attribute}Specifies the category of the task attribute. Available categories include:
+    \begin{itemize}
+        \item \textbf{Waypoints} \\
+        The set of waypoints that drone agent need to reach in the mission flight route.
+        \textbf{Type:} \textit{List},  \textit{Waypoint ID} 
+        \begin{lstlisting}[style=customgo]
+        // waypoints expressed as a list
+        way_points: list_value
+
+        // waypoints expressed as a waypoints ID
+        way_points: waypoints_id_value
+        \end{lstlisting}
+        \item \textbf{Gimbal Pitch} \\
+        The angle of a drone's camera gimbal along the vertical axis, allowing the camera to tilt up and down. Value must be greater or equal to -90.0 and lesser or equal to 90.0. \\
+        \textbf{Type:} \textit{Double}
+        \begin{lstlisting}[style=customgo]
+        gimbal_pitch: double_value
+        \end{lstlisting}
+        \item \textbf{Drone Rotation} \\
+        The heading offset to rotate the drone to at each vertex (in degrees) Value must be greater or equal to 0.0 and lesser or equal to 360.0. \\
+        \textbf{Type:} \textit{Double}
+        \begin{lstlisting}[style=customgo]
+        drone_rotation: double_value
+        \end{lstlisting} 
+        \item \textbf{Speed} \\
+        Speed to execute at. \\
+        \textbf{Type:} \textit{Double}
+        \begin{lstlisting}[style=customgo]
+        speed: double_value
+        \end{lstlisting}
+        \item \textbf{Altitude} \\
+        The altitude (above sea level) to fly at. \\
+        \textbf{Type:} \textit{Double}
+        \begin{lstlisting}[style=customgo]
+        altitude: double_value
+        \end{lstlisting}
+        \item \textbf{Longitude}\\
+        The longitude to fly at.\\
+        \textbf{Type:} \textit{Double}
+        \begin{lstlisting}[style=customgo]
+        longitude: double_value
+        \end{lstlisting}
+        \item \textbf{Latitude} \\
+        The latitude to fly at.\\
+        \textbf{Type:} \textit{Double}
+        \begin{lstlisting}[style=customgo]
+        latitude: double_value
+        \end{lstlisting}
+        \item \textbf{Sample Rate} \\
+        The number of frames to evaluate per second. Value must be greater or equal to 1 and lesser or equal to 30. \\
+        \textbf{Type:} \textit{Integer}
+        \begin{lstlisting}[style=customgo]
+        sample_rate: integer_value
+        \end{lstlisting}
+        \item \textbf{Hover Delay} \\
+        The number of seconds to hover at each waypoint before moving to the next. Value must be greater or equal to 0 and lesser or equal to 10. \\
+        \textbf{Type:} \textit{Integer}
+        \begin{lstlisting}[style=customgo]
+        hover_delay: integer_value
+        \end{lstlisting}
+        \item \textbf{Model} \\
+         Name of the Deep Neural Network (DNN) model used to evaluate frames. This name corresponds to a pretrained model that is invoked in the backend during runtime.\\
+        \textbf{Type:} \textit{String}
+        \begin{lstlisting}[style=customgo]
+        model: string_value
+        \end{lstlisting}
+        \item \textbf{Class} \\
+        Name of the class to track, relevant only in the context of the above model.\\
+        \textbf{Type:} \textit{String}
+        \begin{lstlisting}[style=customgo]
+        class: string_value
+        \end{lstlisting}
+
+        
+    \end{itemize}
+
+
+\subsection{Primitive Type}
+This subsection details the specific values associated with each task attribute, categorizing them by their data types:
+\begin{itemize}
+    \item \textbf{String}\\
+    This type is used to represent textual data. For instance, it specifies the names of classes, models, and waypoint areas in a KML file.
+    \item \textbf{Integer}\\
+    Used for whole numbers. In this domain-specific language, integers specify values such as the sample rate and hover delay.
+    \item \textbf {Double}\\
+    A double precision floating-point number that is precise up to six decimal places. Commonly used to define geographical coordinates such as longitude, latitude, and altitude, as well as parameters like gimbal pitch, drone rotation, and speed.
+    \item \textbf{Tuple}\\
+    A collection of multiple values of the same type, bundled together. Typically, tuples are used to specify the coordinates of a waypoint as shown below
+    \begin{lstlisting}[style=customgo]
+    (double_value, double_value , double_value)  //Double is used to represent the value of longitude, latitude, and altitude.
+    \end{lstlisting}
+    
+    \item \textbf{List}\\
+    Utilized for specifying a sequence of waypoints. Each entry in the list is a tuple representing a waypoint. The format is as follows.
+    \begin{lstlisting}[style=customgo]
+    [(double_value, double_value, double_value), // Start of list
+     ..., // Additional waypoints can be added here
+     (double_value, double_value, double_value)] // End of list
+    \end{lstlisting}
+    
+    \item \textbf{Waypoints ID}\\
+    A unique identifier used to specify waypoints more conveniently without listing individual coordinates. This type helps users specify a named area of waypoints predefined in a KML file:
+    \begin{lstlisting}[style=customgo]
+    <string_value> // String is used to represent the name of waypoints area specified in KML
+    \end{lstlisting}
+\end{itemize}
+    
+
+\section{Mission}
+This section outlines the transition functions between task states, which dictate the mission's flow based on specific events and conditions. There are two primary types of transitions: Start transitions and Task transitions. A Start transition moves the drone agent from the start state to the first task state. A Task transition moves the drone agent from one task state to another. If the drone agent completes the current task state without triggering any events, it will implicitly transition to the terminate state.
+
+\subsection{Transition Definition}
+\begin{itemize}
+    \item \textbf{Start Transition} \\
+    Start transition begins with the keyword \textbf{Start} followed by a task ID. User can only specify one start transition within the mission.
+    \begin{lstlisting}[style=customgo]
+    Mission{
+        // Start transition
+        Start task_id
+    }
+    \end{lstlisting}
+    \item \textbf{Task Transition}\\
+    Task transitions start with the keyword \textbf{Transition}, followed by parentheses containing the trigger event for the transition. Outside the parentheses, specify the current task ID from which the transition originates, followed by '\texttt{->}' and the next task ID to which the transition leads.
+    \begin{lstlisting}[style=customgo]
+    Mission{
+        // Task transition
+        // current task ID -> next task ID
+        Transition (trigger_event) task_id -> task_id
+        //... additional Task Transitions can be added here
+    }
+    \end{lstlisting}
+\end{itemize}
+
+
+\subsection{Trigger Event}
+The trigger event is an argument in the transition function, defining the conditions under which a transition will be triggered. 
+
+\begin{itemize}
+    \item \textbf{Timeout}\\
+    This event is triggered after a specified duration of time has passed.\\
+    \textbf{Argument:} Integer value that specifies the seconds of the time need to be passed.
+    \begin{lstlisting}[style=customgo] 
+    timeout (integer_value) // integer argument
+    \end{lstlisting}  
+    
+    \item \textbf{Object Detection}\\
+    This event is triggered when a specified class of object is detected. Users can only specify this event to be triggered from the detect task state.\\
+    \textbf{Argument:} String value that specifies the class name that needs to be detected.
+    \begin{lstlisting}[style=customgo] 
+    object_detection (string_value) // String argument
+    \end{lstlisting}  
+
+    \item \textbf{Done}\\
+    This event is triggered when the task has reached its conclusion. Once the done event specified on the task state, it will override the implicit transition to the terminate state. Users can only specify this event to be triggered once for each task state.\\
+    \textbf{Argument:} No Argument, the event will trigger when the task considered to be finished.
+    \begin{lstlisting}[style=customgo] 
+    done // No argument
+    \end{lstlisting}  
+\end{itemize}
+
+% \section{Illustrative Examples of Task States}
+
+% Detailed examples of task state definitions using DroneDSL:
+
+% \begin{lstlisting}[style=customgo]
+% Detect task1 {
+%     way_points: <Triangle>,
+%     gimbal_pitch: -45.0,
+%     drone_rotation: 0.0,
+%     sample_rate: 2,
+%     hover_delay: 0,
+%     model: coco
+% }
+
+% Detect task2 {
+%     way_points: [(-79.9503492, 40.4155806, 25.0), (-79.9491717, 40.4155826, 25.0)],
+%     gimbal_pitch: -45.0,
+%     drone_rotation: 0.0,
+%     sample_rate: 2,
+%     hover_delay: 5,
+%     model: none
+% }
+% \end{lstlisting}

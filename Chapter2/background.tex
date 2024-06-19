@@ -1,0 +1,97 @@
+\chapter{Background}
+\label{hello}
+
+This chapter provides a brief overview of drones, discussing their definition, prevalent types, and operational methods, including how they are flown and how missions are planned.
+
+\begin{itemize}
+    \item \textbf{Drone Introduction:} Discusses the features, functionalities, and focuses particularly on quadcopters.
+    \item \textbf{How to Fly a Drone:} Elucidates methods for flying drones, specifically focusing on autonomous flight.
+    \item \textbf{Layers of Abstractions:} Summarizes the entire drone flying pipeline with three abstract layers: autopilot, off-board control, and mission planning.
+\end{itemize}
+
+\section{Introduction to Drones}
+\subsection{Definition of Drones}
+Drones, also known as Unmanned Aerial Vehicles (UAV), are robotic vehicles that operate without human occupants. They are capable of manual or autonomous control and function in diverse environments.
+This subsection introduces several popular types of drones, all of which can be configured and managed using open-source software for drone development \cite{px4docs2023} \cite{ardupilot2023}:
+\subsection{Types of Drones}
+This subsection introduces several popular types of drones:
+\begin{itemize}
+    \item \textbf{Multicopters:} Noted for their vertical takeoffs and ability to hover, though they are generally slower and have shorter flight durations. They are favored for their ease of assembly and effectiveness as camera platforms.
+    \item \textbf{Helicopters:} Offer similar advantages to multicopters but are mechanically more complex and efficient, making them more challenging to operate.
+    \item \textbf{Planes (Fixed-wing):} Capable of longer and faster flights than multicopters, ideal for extensive surveys but require greater piloting skill, especially for slow flight and landing.
+    \item \textbf{VTOL (Vertical Takeoff and Landing):} Combines the features of multicopters and fixed-wing planes for vertical takeoffs and increased flight coverage but are complex and costly.
+\end{itemize}
+In this thesis, we only focus on multicopters, specifically quadcopters.
+
+\subsection{Drone Components and Off-Board Devices}
+\begin{itemize}
+    \item \textbf{Flight Controller (FC):} The central component that runs autopilot software, linking sensors and actuators to control the drone.
+    \item \textbf{Autopilots:} The operational "brain" of drones, running sophisticated software on real-time operating systems to manage flights.
+    \item \textbf{Sensors:} Essential for autonomous operation, these include gyroscopes, accelerometers, and GPS to measure various parameters like position and orientation.
+    \item \textbf{ESCs \& Motors:} Drones typically utilize brushless motors with Electronic Speed Controllers (ESCs) to modulate power output.
+    \item \textbf{Battery/Power:} Powered by Lithium-Polymer (LiPo) batteries, with systems to distribute energy efficiently to components.
+    \item \textbf{Manual Control:} Operated via Radio Control systems or joysticks, integrated with software like QGroundControl\cite{qgroundcontrol2023} for direct manipulation.
+    \item \textbf{Ground Control Stations (GCS):} Facilities that enable operators to monitor and direct drone activities and its payloads.
+\end{itemize}
+
+\section{How to Fly a Drone}
+
+Flying a drone autonomously involves several stages, from mission planning to real-time operation and monitoring. This section focuses specifically on autonomous flights controlled via off-board systems.
+
+\subsection{Mission Planning}
+The process begins with the pilot planning the mission:
+\begin{itemize}
+    \item \textbf{Route Planning:} The pilot draws the flight route on a map, defining specific waypoints.
+    \item \textbf{Task Specification:} Alongside route planning, specific tasks are assigned, such as object detection at certain locations, data collection, or tracking a target.
+\end{itemize}
+
+\subsection{Mission Upload and Initiation}
+Once the mission is planned:
+\begin{itemize}
+    \item \textbf{Uploading the Mission:} The plan is uploaded from the GCS to the drone via a communication protocol. This includes all routes, tasks, and necessary parameters for flight.
+    \item \textbf{Autopilot Engagement:} The drone's onboard autopilot system, which operates the flight stack software, receives signals from the Ground Control Station (GCS) and directs the hardware accordingly.
+\end{itemize}
+
+\subsection{Execution and Monitoring}
+During the mission execution:
+\begin{itemize}
+    \item \textbf{Autonomous Flight:} The drone follows the predefined path autonomously, executing the specified tasks using its onboard systems.
+    \item \textbf{Data Transmission:} The drone continuously sends back real-time data to the GCS, which may include video feed, sensor data, and status updates.
+    \item \textbf{Pilot Monitoring:} The pilot monitors the drone’s operations via the GCS, ready to intervene manually if necessary, to adjust the mission parameters or take direct control in response to unforeseen situations.
+\end{itemize}
+
+\subsection{Landing the Drone}
+Landing is a critical phase in drone operation, whether it is done manually or autonomously:
+\begin{itemize}
+    \item \textbf{Selecting a Landing Spot:} Ensure the landing area is clear of obstacles and suitable for the drone to land safely.
+    \item \textbf{Autonomous Landing:} If the drone is set to land autonomously, monitor the descent to make sure it proceeds as planned.
+    \item \textbf{Manual Landing:} In manual mode, the pilot must carefully control the descent and touchdown to avoid damage.
+\end{itemize}
+
+\section{Layers of Abstraction in Drone Operation}
+
+The operation of a drone, especially in complex autonomous missions, involves multiple layers of abstraction that help segregate responsibilities and simplify control mechanisms.
+
+\subsection{Autopilot Layer}
+The lowest layer in the drone’s operational hierarchy:
+\begin{itemize}
+    \item \textbf{Function:} Direct control over the drone's actuators and sensors, managing basic flight operations such as stabilization, altitude control, and navigation.
+    \item \textbf{Examples of Autopilot Software:} Popular open-source autopilots include PX4 \cite{px4docs2023}, ArduPilot \cite{ardupilot2023}, and iNav \cite{inavflight2023}, each providing a robust platform for various types of drones and missions.
+\end{itemize}
+
+\subsection{Off-Board Control Layer}
+Serves as the intermediary layer:
+\begin{itemize}
+    \item \textbf{Role:} Facilitates communication between the drone and the GCS, transmitting commands and receiving telemetry data.
+    \item \textbf{Popular Protocols:} MAVLink \cite{mavlink2023}, ROS (Robot Operating System) \cite{rosdocs2023}, UAVCAN \cite{uavcan2023}, and UranusLink\cite{UranusLink} are widely used for their reliability and support for a range of hardware and software systems.
+\end{itemize}
+
+\subsection{Mission Planning Layer}
+The highest layer focuses on mission design and execution strategy:
+\begin{itemize}
+    \item \textbf{Mission Scripting:} Utilizes formats like KML (Keyhole Markup Language) \cite{kmltutorial2023} to script and layout missions, specifying waypoints, actions, and flight tasks.
+    \item \textbf{Capabilities:} While KML is predominantly used for geographical data representation, it is adapted in GCSs like QGroundControl \cite{qgroundcontrol2023} to plan and execute complex drone operations.
+\end{itemize}
+
+\subsection{Conclusion}
+Understanding these layers of abstraction helps clarify how drones operate autonomously and interact with control systems, highlighting the sophistication of modern drone technology and the continuous improvements needed in software and communication protocols to enhance operational efficiency and safety.

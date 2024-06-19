@@ -1,0 +1,24 @@
+\chapter{Problem Statement}
+\label{sec:ProblemStatement}
+
+This chapter delves into the specifics of current drone mission planning processes, particularly focusing on reconnaissance missions, and identifies the limitations of existing scripting methods like KML in addressing the dynamic requirements of such missions. This discussion sets the stage for proposing a domain-specific language tailored to overcome these challenges.
+
+\section{Popular Drone Missions}
+Drone missions encompass a range of activities, including surveillance, cargo transport, and infrastructure inspection. Reconnaissance missions, in particular, demand a high level of adaptability and self-awareness from drones to respond effectively to changing environmental conditions.
+
+\section{Mission Planning and Challenges}
+As outlined in Chapter 2, the predominant scripting language for drone missions is KML, a tag-based structure with nested elements designed primarily for geographical data representation. However, KML falls short in several areas crucial for effective drone mission planning:
+\begin{itemize}
+    \item \textbf{Dynamic Behavior:} KML lacks mechanisms to express dynamic behaviors and is not suited for conditional branching or looping, essential for complex mission scenarios.
+    \item \textbf{Cognitive Load:} The language's nested structure can  obscure the understanding and management of missions.
+\end{itemize}
+
+\section{Research Goals}
+While KML provides valuable engineering benefits such as encapsulation of implementation details, compilation checking, and script simplicity and reusability, it lacks the expressiveness needed to model the dynamic behaviors of drones effectively. This thesis proposes the design of a new domain-specific language (DSL) that retains the advantageous abstraction layer of KML while enhancing expressiveness to allow pilots to model drone behaviors accurately. The design goals for this new DSL include:
+\begin{itemize}
+    \item \textbf{Expressiveness:} Sufficient to capture dynamic behaviors crucial for complex drone operations.
+    \item \textbf{Platform Agnosticism:} Usable across different drone platforms.
+    \item \textbf{User-Friendly:} Easy to learn and use, even for those with limited programming experience.
+\end{itemize}
+
+This new DSL aims to bridge the gap between the technical limitations of KML and the operational needs of drone missions, providing a robust tool for mission planning in diverse and dynamically changing environments.

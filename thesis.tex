@@ -1,0 +1,238 @@
+\documentclass[MS]{inithesis}
+%\documentclass[economy,twoside,bind]{inithesis}
+% Use the second for a single-spaced copy suitable for duplex printing
+% and binding.
+
+% Other useful options (there are more options documented in Chapter 2):
+%  * draft -- don't actually include images, print a black bar on overful
+%             hboxes
+%  * MS    -- Format for a Master's Thesis.  No UMI abstract page, some 
+%             textual changes to title page.  
+
+
+% Useful packages for thesis writing:
+\usepackage[greek,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{csquotes}
+% Define a custom style named 'customgo'
+\lstdefinestyle{customgo}{
+    language=Go,
+    xleftmargin=\parindent,
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{gray!10},  % Background color
+    commentstyle=\color{teal},        % Comments in teal
+    keywordstyle=\color{blue},        % Regular keywords in blue
+    stringstyle=\color{red},          % Strings in red
+    showstringspaces=false,
+    showspaces=false,
+    numbers=left,                     % Line numbers on the left
+    numberstyle=\tiny\color{gray},    % Line numbers in tiny gray font
+    numbersep=5pt,
+    tabsize=4,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,                     % Single frame around code
+    morekeywords=[2]{trigger_event, current_task_id, next_task_id, task_attribute_value, task_id, task_type, task_attribute},  % Additional keywords for class 2
+    morekeywords=[3]{double_value, list_value, waypoints_id_value, integer_value, string_value},  % Additional keywords for class 3
+    morekeywords=[4]{...},  % Additional keywords for class 3
+    keywordstyle=[2]{\itshape\color{orange}},  % Class 2 keywords in italic orange
+    keywordstyle=[3]{\itshape\color{blue}},   % Class 3 keywords in italic purple
+    keywordstyle=[4]{\itshape\color{green}}
+}
+\lstdefinestyle{c1}{
+    language=Matlab,
+    xleftmargin=\parindent,
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{gray!10},  % Background color
+    commentstyle=\color{teal},        % Comments in teal
+    keywordstyle=\color{blue},        % Regular keywords in blue
+    stringstyle=\color{red},          % Strings in red
+    showstringspaces=false,
+    showspaces=false,
+    numbers=left,                     % Line numbers on the left
+    numberstyle=\tiny\color{gray},    % Line numbers in tiny gray font
+    numbersep=5pt,
+    tabsize=4,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,                     % Single frame around code
+    morekeywords=[2]{trigger_event, current_task_id, next_task_id, task_attribute_value, task_id, task_type, task_attribute},  % Additional keywords for class 2
+    morekeywords=[3]{double_value, list_value, waypoints_id_value, integer_value, string_value},  % Additional keywords for class 3
+    morekeywords=[4]{...},  % Additional keywords for class 3
+    keywordstyle=[2]{\itshape\color{orange}},  % Class 2 keywords in italic orange
+    keywordstyle=[3]{\itshape\color{blue}},   % Class 3 keywords in italic purple
+    keywordstyle=[4]{\itshape\color{green}}
+}
+
+\usepackage{xcolor}  % Optional, for coloring code
+%\usepackage{natbib}
+\usepackage{color}
+\usepackage{bm}
+%\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{mathabx}
+\usepackage{multirow}
+\usepackage{setspace}
+\usepackage{pdfpages}
+\usepackage{tocloft}
+\addtolength\cftfignumwidth{2.7em}%
+\addtolength\cfttabnumwidth{2.7em}%
+%\renewcommand{\cftpartnumwidth}{4em}
+%\renewcommand{\cftchapaftersnumb}{\hspace{0em}}
+%\renewcommand{\cftsecnumwidth}{1.5em}
+%\renewcommand{\cftsecaftersnumb}{\hspace{0em}}
+%\renewcommand{\cftsubsubsecindent}{8em}
+%\renewcommand{\cftsubsecaftersnumb}{\hspace{0em}}
+
+% \usepackage{cite}  % If you include this, hyperlink cites will
+                     % break.  It's nice to use this package if your bibstyle
+							% sorts entries by order-of-use, rather than
+							% alphabetically (as plain does).
+							
+%Theorem, Lemma, etc. environments
+\newtheorem{theorem}{Theorem}%[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{result}[theorem]{Result}
+
+% Personal commands and abbreviations.
+%Define and personal commands here
+
+%Graphics Path to find your pictures
+\graphicspath{{./Pictures/}}
+
+
+
+%-----------------------------------------------------------------------------%
+% PREAMBLE 
+%-----------------------------------------------------------------------------%
+\author{Xiangliang Chen}% First Name, Middle Initial, Last Name
+\title{Domain Specific Language for Drone Autonomy}
+%\supervisor{Dr. Nicolas Christin}
+%\advisor{Dr. Nicolas Christin}
+\department{Information Networking Institute} 
+\program{Information Networking}% MSISTM, MSIN or MIST-X
+\departmenthead{Dr. Dena Haritos Tsamitis}
+\dean{Dr. Pradeep Khosla}
+\previousdegreelist{B.S.Applied and Computational Math Sciences: Discrete Mathematics and Algorithms, University of Washington}% Separate Multiple Entries with ' \\ '
+\fulldate{March, 2024} % Month, Year
+% Year the degree was/will be conferred
+\degreeyear{2024}
+
+% Copyright text.  If undefined, default is 'All rights reserved'
+% (Example sets the text to a hyperlinked Creative Commons Licence)
+\copyrighttext{All Rights Reserved}
+
+
+
+%-----------------------------------------------------------------------------%
+% HYPERREF: plain black hypertext references for ref's and cite's.
+%-----------------------------------------------------------------------------%
+
+\usepackage[pdftex, pdfusetitle, plainpages=false, bookmarks, bookmarksnumbered,
+            colorlinks, linkcolor=black, citecolor=black,
+            filecolor=black, urlcolor=black]{hyperref}
+
+\begin{document}
+
+% Fill in the blanks in cur_ThesisSig.doc with your information and save in 
+% PDF format as signature.pdf 
+% \includepdf[pages={1}]{signature.pdf}
+
+%-----------------------------------------------------------------------------%
+% TITLE PAGE -- provides UMI abstract title page & copyright if appropriate
+%-----------------------------------------------------------------------------%
+\maketitle
+
+%-----------------------------------------------------------------------------%
+% ACKNOWLEDGEMENTS -- included file should start with '\acknowledgements'
+%-----------------------------------------------------------------------------%
+\include{{./Acknowledgements/acknowledgements}}
+
+%-----------------------------------------------------------------------------%
+% ABSTRACT -- included file should start with '\abstract'.
+%-----------------------------------------------------------------------------%
+\include{{./Abstract/abstract}}
+
+%-----------------------------------------------------------------------------%
+% FRONTMATTER -- ToC is required, LoT and LoF are required if you have any
+% tables or figures, respectively. List of Abbreviations and Symbols is 
+% optional.
+%-----------------------------------------------------------------------------%
+% HYPERREF should be loaded last
+
+
+% Correct usage of \phantomsection and \addcontentsline
+\tableofcontents
+\newpage
+
+% \phantomsection
+% \listoftables
+% \addcontentsline{toc}{chapter}{List of Tables}
+% \newpage
+
+\phantomsection
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\newpage
+%\include{{./Symbols/listofsymbols}} % List of Abbreviations. Start file with '\abbreviations'
+
+%==============================================================================
+%-----------------------------------------------------------------------------%
+%
+% MAIN BODY OF PAPER
+%
+%
+%-----------------------------------------------------------------------------%
+\include{{./Chapter1/introduction}}
+\include{{./Chapter2/background}} % A regular chapter, starts with '\chapter{Title}'
+\include{{./Chapter3/problem_statement}}
+\include{{./Chapter4/literature_review}}
+\include{{./Chapter5/model}}
+\include{{./Chapter6/dsl}}
+\include{{./Chapter7/implementation}} %//Some other possible sections
+\include{{./Chapter8/future}}
+\include{{./Chapter9/conclude}}
+
+%==============================================================================
+
+%-----------------------------------------------------------------------------%
+% BIBLIOGRAPHY -- uncomment \nocite{*} to include items in 'mybib.bib' file
+% that aren't cited in the text.  Change the style to match your
+% discipline's standards.  Of course, if your bibliography file isn't called
+% 'mybib.bib' you might want to change that here too :)
+%-----------------------------------------------------------------------------%
+%\nocite{*} - if you use this it will put EVERYTHING in your .bib file into the references even if you don't cite it in the text
+%\bibliographystyle{./Bibliography/jasa} %Formats bibliography
+
+% Set the bibliography style
+\bibliographystyle{IEEEtranS} % Change to a path relative to your main .tex file or use a system-wide style
+
+% Ensure the bibliography starts on a new page
+\cleardoublepage
+
+% Reset any changes to line spacing to default
+\normalbaselines
+
+% % Add the bibliography to the Table of Contents as a chapter
+% \addcontentsline{toc}{chapter}{Bibliography}
+
+% Specify the .bib file containing your bibliographic entries
+\bibliography{./Bibliography/mybib} % Ensure the path to your .bib file is correct
+
+%-----------------------------------------------------------------------------%
+% APPENDICES -- OPTIONAL. These are just chapters enumerated by Appendix 1,
+%                Appendix 2, Appendix 3...
+%-----------------------------------------------------------------------------%
+\appendix
+\include{{./Appendix/appendix1}}
+% Start with '\chapter{Title}'
+%You can always add more appendices here if you want
+% You're done :)
+\end{document}

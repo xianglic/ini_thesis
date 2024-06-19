@@ -1,0 +1,23 @@
+\chapter{Future Work}
+\label{sec:future}
+
+
+\section{Short Term Goals}
+In the short term, the objective is to \textbf{enrich the language} of DroneDSL by introducing new tasks to broaden the variety of tasks, defining trigger events with a class-based structure similar to tasks, enabling composable conditional statements using logical operators such as "and", and incorporating the ability to add comments within the code.
+
+Further enhancements will focus on \textbf{style and checking} features. This includes adopting a keyword style similar to SQL to improve readability and familiarity. Improvements will also be made in compilation checks by enforcing strict type validation for syntax checking, ensuring contextual accuracy through semantic checks, verifying drone compatibility to ensure equivalence with various drone models, confirming model adherence through model compatibility checks, and employing ``include" and ``extern" semantics for state verification.
+
+Additionally, the \textbf{runtime library} will be refined by modularizing the mission architecture. This involves separating the mission creator, controller, and task runner into distinct threads from the drone SDK script, thus optimizing performance and reliability.
+
+\section{Long Term Goals}
+The current implementation of DroneDSL allows for specifying tasks based on object classes, such as detecting or tracking a person or a vehicle. An intriguing direction for further development is enhancing how classes are described to capture more complex scenarios. For instance, we might want a drone to identify a specific scene where two individuals, distinguished by attributes like clothing color, gender, and height, are shaking hands. To facilitate this, DroneDSL would need to evolve to include a system that can articulate and manage the relationships between various features within a scene, thereby allowing for a more nuanced and expressive description of detection tasks.
+
+Currently, DroneDSL enables the execution of one task at a time. However, as some drones are capable of multitasking—e.g.performing maneuvers while simultaneously avoiding obstacles—there is a significant opportunity to expand the language's semantics to support the execution of foreground and background tasks simultaneously. This enhancement would leverage the advanced capabilities of modern drones and offer more dynamic and efficient mission planning.
+
+While DroneDSL supports autonomous operations, manual mode remains crucial for drone operation. Enhancing DroneDSL to seamlessly transition between autonomous and manual modes would greatly increase its practicality. Since DroneDSL is a compiled language, enabling real-time interpretation during manual mode might require integrating features that allow pilots to use the language interactively. This capability would make the language more flexible and adaptable to real-time operational needs.
+
+Another area of interest is runtime variable binding. In many drone operations, the targets of interest might not be defined during the initial compilation or mission planning stages. For example, if a pilot spots something of interest mid-mission, they should have the capability to dynamically bind this new target with the existing features detected by the drone's sensors. Developing features in DroneDSL to support such dynamic binding would enhance its utility in diverse operational contexts.
+
+Currently, DroneDSL is limited to executing one mission at a time. To accommodate long-distance tasks, particularly for lighter drones with limited onboard power, integrating multi-hop planning capabilities is essential. This could mirror the practice of fixed-wing pilots who prepare navigation logs to plan optimized routes and manage fuel consumption. By incorporating a similar strategy into DroneDSL, the language could provide facilities for breaking down long missions into manageable segments, potentially using optimization algorithms during the compilation phase to enhance route efficiency and power management.
+
+Lastly, considering the potential of coordinated multi-drone missions opens up another promising avenue for DroneDSL's evolution. Enabling the language to articulate and manage multiple drones working in concert could dramatically expand the scope and impact of drone technology.
